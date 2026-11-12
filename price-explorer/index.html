@@ -101,16 +101,16 @@ body { margin: 0; }
     <div class="legend">
       <span><i class="dot"></i>Hospital's average price across insurers</span>
       <span><i class="bar"></i>Lowest to highest insurer</span>
-      <span><i class="med"></i>U.S. median</span>
+      <span><i class="med"></i>Median U.S. hospital</span>
     </div>
     <svg id="svg" role="img" aria-label="Hospital prices in the selected market"></svg>
     <div class="tip" id="tip" hidden></div>
   </div>
 
   <div class="note">
-    <p><b>What the prices are.</b> Facility prices from the Transparency in Coverage files of UnitedHealthcare, the Blue Cross Blue Shield plans and Cigna, February 2024. Hip/knee replacement is MS-DRG 470, cesarean delivery DRG 788, vaginal delivery DRG 807, PCI a drug-eluting stent without complications (DRG 247/322); colonoscopy and lower-limb MRI are outpatient facility fees. Each insurer's price is its median across its networks; the dot is the average over insurers.</p>
+    <p><b>What the prices are.</b> Facility prices from the Transparency in Coverage files, February 2024, mainly those of UnitedHealthcare and the Blue Cross Blue Shield plans. Hip/knee replacement is MS-DRG 470, cesarean delivery DRG 788, vaginal delivery DRG 807, PCI a drug-eluting stent without complications (DRG 247/322); colonoscopy and lower-limb MRI are outpatient facility fees. Each insurer's price is its median across its networks; the dot is the average over insurers.</p>
     <p><b>Markets</b> are hospital referral regions (Dartmouth Atlas), shown when at least four hospitals have a price. Posted rates are contract prices, not what patients pay out of pocket.</p>
-    <p>From “Hospitals, Insurers, and the Variation in Negotiated Prices: Evidence from Transparency in Coverage Data,” <a href="/#research">Dalya Elmalt</a>.</p>
+    <p>From “Do Self-Funded Employers Pay More for Hospital Care? Evidence from Transparency in Coverage Data,” <a href="/#research">Dalya Elmalt</a>.</p>
   </div>
 </div>
 
@@ -167,7 +167,7 @@ body { margin: 0; }
     $('stats').innerHTML = [
       [ratio.toFixed(1) + '×', 'highest vs lowest hospital'],
       [money(med), 'market median'],
-      [money(nat), 'U.S. median'],
+      [money(nat), 'median U.S. hospital'],
       [rows.length, 'hospitals with a price']
     ].map(([v, l]) => `<div class="stat"><b>${v}</b><span>${l}</span></div>`).join('');
     draw(rows, nat);
@@ -211,7 +211,7 @@ body { margin: 0; }
         const r = rows[+el.dataset.i];
         svg.querySelectorAll('.row.on').forEach(o => o.classList.remove('on')); el.classList.add('on');
         const rel = r[2] / nat;
-        tip.innerHTML = `<b>${esc(r[0])}</b><br><span class="m">${esc(r[1])}</span><br>Average ${money(r[2])} · ${rel >= 1 ? Math.round((rel - 1) * 100) + '% above' : Math.round((1 - rel) * 100) + '% below'} U.S. median` +
+        tip.innerHTML = `<b>${esc(r[0])}</b><br><span class="m">${esc(r[1])}</span><br>Average ${money(r[2])} · ${rel >= 1 ? Math.round((rel - 1) * 100) + '% above' : Math.round((1 - rel) * 100) + '% below'} the median U.S. hospital` +
           (r[5] > 1 ? `<br>${r[5]} insurers: ${money(r[3])} to ${money(r[4])}` : `<br>1 insurer posts a price`);
         tip.hidden = false;
         const box = $('chart').getBoundingClientRect(), rb = el.getBoundingClientRect();
